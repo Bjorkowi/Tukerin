@@ -1,0 +1,80 @@
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+}
+
+/* Smooth transitions semua elemen */
+a, button {
+  transition: all 0.2s ease;
+}
+
+/* Hover effects untuk card listing */
+a[href*="/listing"] {
+  transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+}
+a[href*="/listing"]:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 12px 32px rgba(37, 99, 235, 0.12);
+  border-color: #2563eb !important;
+}
+
+/* Hover navbar links */
+nav a:hover {
+  opacity: 0.8;
+}
+
+/* Hover tombol */
+button:hover {
+  opacity: 0.9;
+  transform: translateY(-1px);
+}
+
+/* Hover kategori cards */
+a[href*="/marketplace"]:hover {
+  border-color: #2563eb !important;
+  box-shadow: 0 4px 16px rgba(37, 99, 235, 0.1);
+}
+
+/* Input focus effect */
+input:focus {
+  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.15);
+  border-color: #2563eb !important;
+}
+
+/* Animasi fade-in halaman */
+main {
+  animation: fadeIn 0.3s ease;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* Pulse animation untuk badge unread chat */
+@keyframes pulse {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.1); }
+}
+
+/* Hover chat sidebar */
+button:hover {
+  background-color: #f8fafc;
+}
+
+/* Smooth scroll */
+html {
+  scroll-behavior: smooth;
+}
+
+/* Hover tombol primary */
+a[style*="background: #2563eb"]:hover,
+a[style*="backgroundColor: #2563eb"]:hover {
+  background-color: #1d4ed8 !important;
+  transform: translateY(-1px);
+}
