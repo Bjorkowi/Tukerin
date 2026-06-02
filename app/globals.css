@@ -211,3 +211,11 @@ a[style*="backgroundColor: #2563eb"]:hover {
     display: none !important;
   }
 }
+@media (max-width: 768px) {
+  .hero-cards {
+    display: none !important;
+  }
+  section > div[style*="grid-template-columns: 1fr 1fr"] {
+    grid-template-columns: 1fr !important;
+  }
+}
