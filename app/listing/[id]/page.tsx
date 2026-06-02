@@ -1,3 +1,5 @@
+"use client";
+import { useEffect, useState } from "react";
 import Navbar from "../../components/Navbar";
 
 const listings = [
@@ -9,9 +11,22 @@ const listings = [
   { id: 6, icon: "📖", title: "Modul Fisika Dasar 1 & 2", price: "Rp50.000", major: "FTI", condition: "Bekas", category: "Buku", bg: "#fff7ed", description: "Modul Fisika Dasar 1 dan 2 lengkap. Termasuk kumpulan soal UTS dan UAS tahun lalu. Sangat berguna untuk persiapan ujian.", seller: { name: "Dewi Lestari", major: "Teknik Industri", rating: 4.5, totalSales: 15 } },
 ];
 
-export default async function ListingDetailPage({ params }: { params: Promise<{ id: string }> }) {
-  const { id } = await params;
-  const item = listings.find((l) => l.id === Number(id));
+export default function ListingDetailPage({ params }: { params: Promise<{ id: string }> }) {
+  const [isMobile, setIsMobile] = useState(false);
+  const [item, setItem] = useState<typeof listings[0] | undefined>(undefined);
+
+  useEffect(() => {
+    const check = () => setIsMobile(window.innerWidth < 768);
+    check();
+    window.addEventListener("resize", check);
+    return () => window.removeEventListener("resize", check);
+  }, []);
+
+  useEffect(() => {
+    params.then(({ id }) => {
+      setItem(listings.find((l) => l.id === Number(id)));
+    });
+  }, [params]);
 
   if (!item) {
     return (
@@ -30,28 +45,36 @@ export default async function ListingDetailPage({ params }: { params: Promise<{ 
   return (
     <main style={{ minHeight: "100vh", backgroundColor: "#f8fafc" }}>
       <Navbar />
-      <div style={{ maxWidth: 1280, margin: "0 auto", padding: "16px 24px" }}>
+      <div style={{ maxWidth: 1280, margin: "0 auto", padding: isMobile ? "16px" : "24px" }}>
         <p style={{ fontSize: 13, color: "#64748b", margin: "0 0 20px" }}>
           <a href="/" style={{ color: "#64748b", textDecoration: "none" }}>Beranda</a>{" › "}
           <a href="/marketplace" style={{ color: "#64748b", textDecoration: "none" }}>Marketplace</a>{" › "}
           <span style={{ color: "#1e293b" }}>{item.title}</span>
         </p>
-        <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 32 }}>
-          <div style={{ borderRadius: 20, backgroundColor: item.bg, display: "flex", alignItems: "center", justifyContent: "center", fontSize: 120, minHeight: 400 }}>{item.icon}</div>
-          <div style={{ display: "flex", flexDirection: "column", gap: 20 }}>
+
+        <div style={{ display: "flex", flexDirection: isMobile ? "column" : "row", gap: 32 }}>
+          {/* Foto */}
+          <div style={{ borderRadius: 20, backgroundColor: item.bg, display: "flex", alignItems: "center", justifyContent: "center", fontSize: isMobile ? 80 : 120, minHeight: isMobile ? 240 : 400, flex: isMobile ? "none" : 1 }}>
+            {item.icon}
+          </div>
+
+          {/* Info */}
+          <div style={{ display: "flex", flexDirection: "column", gap: 16, flex: isMobile ? "none" : 1 }}>
             <div>
-              <div style={{ display: "flex", gap: 8, marginBottom: 12 }}>
+              <div style={{ display: "flex", gap: 8, marginBottom: 12, flexWrap: "wrap" }}>
                 <span style={{ borderRadius: 999, backgroundColor: "#eff6ff", padding: "4px 12px", fontSize: 12, color: "#2563eb" }}>{item.major}</span>
                 <span style={{ borderRadius: 999, backgroundColor: "#f0fdf4", padding: "4px 12px", fontSize: 12, color: "#16a34a" }}>{item.condition}</span>
                 <span style={{ borderRadius: 999, backgroundColor: "#f1f5f9", padding: "4px 12px", fontSize: 12, color: "#475569" }}>{item.category}</span>
               </div>
-              <h1 style={{ fontSize: 32, fontWeight: 700, color: "#1e293b", margin: "0 0 8px" }}>{item.title}</h1>
-              <p style={{ fontSize: 36, fontWeight: 700, color: "#ef4444", margin: 0 }}>{item.price}</p>
+              <h1 style={{ fontSize: isMobile ? 24 : 32, fontWeight: 700, color: "#1e293b", margin: "0 0 8px" }}>{item.title}</h1>
+              <p style={{ fontSize: isMobile ? 28 : 36, fontWeight: 700, color: "#ef4444", margin: 0 }}>{item.price}</p>
             </div>
+
             <div style={{ backgroundColor: "#fff", borderRadius: 16, border: "1px solid #e2e8f0", padding: 20 }}>
               <h2 style={{ fontSize: 15, fontWeight: 600, color: "#475569", margin: "0 0 8px" }}>Deskripsi Barang</h2>
               <p style={{ fontSize: 14, color: "#334155", lineHeight: 1.7, margin: 0 }}>{item.description}</p>
             </div>
+
             <div style={{ backgroundColor: "#fff", borderRadius: 16, border: "1px solid #e2e8f0", padding: 20 }}>
               <h2 style={{ fontSize: 15, fontWeight: 600, color: "#475569", margin: "0 0 12px" }}>Informasi Penjual</h2>
               <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
@@ -63,6 +86,7 @@ export default async function ListingDetailPage({ params }: { params: Promise<{ 
                 </div>
               </div>
             </div>
+
             <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
               <a href={"/chat?seller=" + encodeURIComponent(item.seller.name) + "&item=" + encodeURIComponent(item.title) + "&price=" + encodeURIComponent(item.price)} style={{ display: "block", textAlign: "center", backgroundColor: "#2563eb", color: "#fff", padding: "14px", borderRadius: 12, fontWeight: 700, fontSize: 15, textDecoration: "none" }}>💬 Chat Penjual</a>
               <button style={{ width: "100%", padding: "14px", borderRadius: 12, border: "2px solid #2563eb", backgroundColor: "transparent", color: "#2563eb", fontWeight: 700, fontSize: 15, cursor: "pointer" }}>🤍 Tambah ke Wishlist</button>

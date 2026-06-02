@@ -1,6 +1,19 @@
+"use client";
+import { useEffect, useState } from "react";
 import Navbar from "../components/Navbar";
 
 export default function DashboardPage() {
+  const [user, setUser] = useState<{ name: string; major: string } | null>(null);
+
+  useEffect(() => {
+    const session = localStorage.getItem("tukerin_session");
+    if (!session) {
+      window.location.href = "/login";
+    } else {
+      setUser(JSON.parse(session));
+    }
+  }, []);
+
   const activeListings = [
     { id: 1, icon: "🧮", title: "Kalkulator Casio FX-991EX", price: "Rp150.000", views: 24, chats: 3, bg: "#eff6ff" },
     { id: 3, icon: "📐", title: "Drawing Pen Set 6 Ukuran", price: "Rp80.000", views: 11, chats: 1, bg: "#faf5ff" },
@@ -8,12 +21,16 @@ export default function DashboardPage() {
   const soldListings = [
     { id: 2, icon: "📚", title: "Buku Kalkulus Stewart Ed.8", price: "Rp120.000", buyer: "Fadhel A.", bg: "#fffbeb" },
   ];
+
+  if (!user) return null;
+
   return (
     <main style={{ minHeight: "100vh", backgroundColor: "#f8fafc" }}>
       <Navbar />
       <div style={{ backgroundColor: "#2563eb", padding: "32px 24px" }}>
         <div style={{ maxWidth: 1280, margin: "0 auto" }}>
-          <h2 style={{ color: "#fff", fontSize: 28, fontWeight: 700, margin: "0 0 24px" }}>Dashboard Penjual</h2>
+          <h2 style={{ color: "#fff", fontSize: 28, fontWeight: 700, margin: "0 0 4px" }}>Dashboard Penjual</h2>
+          <p style={{ color: "#bfdbfe", fontSize: 14, margin: "0 0 24px" }}>Selamat datang, {user.name.split(" ")[0]}!</p>
           <div style={{ display: "grid", gridTemplateColumns: "repeat(4, 1fr)", gap: 16 }}>
             {[{ num: "2", label: "Barang Aktif", icon: "📦" }, { num: "1", label: "Terjual", icon: "✅" }, { num: "35", label: "Total Views", icon: "👁️" }, { num: "Rp120rb", label: "Total Pendapatan", icon: "💰" }].map((s) => (
               <div key={s.label} style={{ backgroundColor: "rgba(255,255,255,0.15)", borderRadius: 16, padding: 20 }}>
