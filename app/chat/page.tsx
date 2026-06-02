@@ -3,12 +3,12 @@ import { useState, useEffect } from "react";
 import Navbar from "../components/Navbar";
 
 const allSellers = [
-  { id: 1, name: "Zaki Annaufal", major: "Teknik Elektro", item: "Kalkulator Casio FX-991EX", itemPrice: "Rp150.000", messages: [{ from: "them", text: "Halo, kalkulator masih available?", time: "10:00" }, { from: "me", text: "Masih bro! Kondisi bagus banget.", time: "10:01" }, { from: "them", text: "Bisa nego ga? Rp130.000 gimana?", time: "10:05" }, { from: "me", text: "Rp140.000 deh, final ya hehe", time: "10:07" }, { from: "them", text: "Deal! Kapan bisa COD?", time: "10:20" }, { from: "me", text: "Oke siap, ketemu di Gerbang Barat ya!", time: "10:32" }], lastMessage: "Oke siap, ketemu di Gerbang Barat ya!", time: "10:32", unread: 0 },
-  { id: 2, name: "Fadhel Alkautsar", major: "Teknik Elektro", item: "Buku Kalkulus Stewart", itemPrice: "Rp120.000", messages: [{ from: "them", text: "Halo kak, buku kalkulus masih ada?", time: "09:00" }, { from: "me", text: "Ada! Kondisi baik.", time: "09:05" }, { from: "them", text: "Buku masih ada highlight dikit ya?", time: "09:15" }], lastMessage: "Buku masih ada highlight dikit ya?", time: "09:15", unread: 2 },
-  { id: 3, name: "Andi Pratama", major: "Arsitektur", item: "Drawing Pen Set", itemPrice: "Rp80.000", messages: [{ from: "them", text: "Drawing pen masih lengkap semua ukurannya?", time: "Kemarin" }, { from: "me", text: "Lengkap! 6 ukuran semua ada.", time: "Kemarin" }, { from: "them", text: "Oke nanti saya kabarin lagi ya", time: "Kemarin" }], lastMessage: "Oke nanti saya kabarin lagi ya", time: "Kemarin", unread: 0 },
-  { id: 4, name: "Siti Rahayu", major: "Kimia", item: "Lab Kit Kimia Lengkap", itemPrice: "Rp250.000", messages: [], lastMessage: "", time: "", unread: 0 },
-  { id: 5, name: "Budi Santoso", major: "Informatika", item: "Laptop ThinkPad X270", itemPrice: "Rp4.500.000", messages: [], lastMessage: "", time: "", unread: 0 },
-  { id: 6, name: "Dewi Lestari", major: "Teknik Industri", item: "Modul Fisika Dasar 1 & 2", itemPrice: "Rp50.000", messages: [], lastMessage: "", time: "", unread: 0 },
+  { id: 1, name: "Demo User 1", major: "Teknik Elektro", item: "Kalkulator Casio FX-991EX", itemPrice: "Rp150.000", messages: [{ from: "them", text: "Halo, kalkulator masih available?", time: "10:00" }, { from: "me", text: "Masih bro! Kondisi bagus banget.", time: "10:01" }, { from: "them", text: "Bisa nego ga? Rp130.000 gimana?", time: "10:05" }, { from: "me", text: "Rp140.000 deh, final ya hehe", time: "10:07" }, { from: "them", text: "Deal! Kapan bisa COD?", time: "10:20" }, { from: "me", text: "Oke siap, ketemu di Gerbang Barat ya!", time: "10:32" }], lastMessage: "Oke siap, ketemu di Gerbang Barat ya!", time: "10:32", unread: 0 },
+  { id: 2, name: "Demo User 2", major: "Informatika", item: "Buku Kalkulus Stewart", itemPrice: "Rp120.000", messages: [{ from: "them", text: "Halo kak, buku kalkulus masih ada?", time: "09:00" }, { from: "me", text: "Ada! Kondisi baik.", time: "09:05" }, { from: "them", text: "Buku masih ada highlight dikit ya?", time: "09:15" }], lastMessage: "Buku masih ada highlight dikit ya?", time: "09:15", unread: 2 },
+  { id: 3, name: "Demo User 3", major: "Arsitektur", item: "Drawing Pen Set", itemPrice: "Rp80.000", messages: [{ from: "them", text: "Drawing pen masih lengkap semua ukurannya?", time: "Kemarin" }, { from: "me", text: "Lengkap! 6 ukuran semua ada.", time: "Kemarin" }, { from: "them", text: "Oke nanti saya kabarin lagi ya", time: "Kemarin" }], lastMessage: "Oke nanti saya kabarin lagi ya", time: "Kemarin", unread: 0 },
+  { id: 4, name: "Demo User 4", major: "Kimia", item: "Lab Kit Kimia Lengkap", itemPrice: "Rp250.000", messages: [], lastMessage: "", time: "", unread: 0 },
+  { id: 5, name: "Demo User 5", major: "Informatika", item: "Laptop ThinkPad X270", itemPrice: "Rp4.500.000", messages: [], lastMessage: "", time: "", unread: 0 },
+  { id: 6, name: "Demo User 6", major: "Teknik Industri", item: "Modul Fisika Dasar 1 & 2", itemPrice: "Rp50.000", messages: [], lastMessage: "", time: "", unread: 0 },
 ];
 
 export default function ChatPage() {
@@ -19,10 +19,10 @@ export default function ChatPage() {
   const [showChat, setShowChat] = useState(false);
 
   useEffect(() => {
-    const checkMobile = () => setIsMobile(window.innerWidth < 768);
-    checkMobile();
-    window.addEventListener("resize", checkMobile);
-    return () => window.removeEventListener("resize", checkMobile);
+    const check = () => setIsMobile(window.innerWidth < 768);
+    check();
+    window.addEventListener("resize", check);
+    return () => window.removeEventListener("resize", check);
   }, []);
 
   useEffect(() => {
@@ -47,7 +47,7 @@ export default function ChatPage() {
       {chats.map((c) => (
         <button key={c.id} onClick={() => { setActiveId(c.id); if (isMobile) setShowChat(true); }} style={{ width: "100%", padding: 16, textAlign: "left", border: "none", borderBottom: "1px solid #f1f5f9", backgroundColor: activeId === c.id ? "#eff6ff" : "#fff", borderLeft: activeId === c.id ? "3px solid #2563eb" : "3px solid transparent", cursor: "pointer" }}>
           <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
-            <div style={{ width: 44, height: 44, borderRadius: "50%", backgroundColor: "#2563eb", display: "flex", alignItems: "center", justifyContent: "center", color: "#fff", fontWeight: 700, flexShrink: 0 }}>{c.name.charAt(0)}</div>
+            <img src={"https://api.dicebear.com/7.x/avataaars/svg?seed=" + encodeURIComponent(c.name) + "&backgroundColor=b6e3f4"} style={{ width: 44, height: 44, borderRadius: "50%", backgroundColor: "#e0f2fe", flexShrink: 0 }} alt={c.name} />
             <div style={{ flex: 1, minWidth: 0 }}>
               <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
                 <p style={{ fontWeight: 600, fontSize: 14, margin: 0, color: "#1e293b" }}>{c.name}</p>
@@ -69,25 +69,25 @@ export default function ChatPage() {
         {isMobile && (
           <button onClick={() => setShowChat(false)} style={{ border: "none", background: "none", cursor: "pointer", fontSize: 20, padding: "0 8px 0 0", color: "#2563eb" }}>←</button>
         )}
-        <div style={{ width: 44, height: 44, borderRadius: "50%", backgroundColor: "#2563eb", display: "flex", alignItems: "center", justifyContent: "center", color: "#fff", fontWeight: 700 }}>{active?.name.charAt(0)}</div>
+        <img src={"https://api.dicebear.com/7.x/avataaars/svg?seed=" + encodeURIComponent(active.name) + "&backgroundColor=b6e3f4"} style={{ width: 44, height: 44, borderRadius: "50%", backgroundColor: "#e0f2fe" }} alt={active.name} />
         <div>
-          <p style={{ fontWeight: 600, fontSize: 15, margin: 0 }}>{active?.name}</p>
-          <p style={{ fontSize: 13, color: "#64748b", margin: 0 }}>{active?.major} · ITB</p>
+          <p style={{ fontWeight: 600, fontSize: 15, margin: 0 }}>{active.name}</p>
+          <p style={{ fontSize: 13, color: "#64748b", margin: 0 }}>{active.major} · ITB</p>
         </div>
         <div style={{ marginLeft: "auto", backgroundColor: "#eff6ff", borderRadius: 12, padding: "8px 16px", textAlign: "right" }}>
           <p style={{ fontSize: 11, color: "#64748b", margin: 0 }}>Barang</p>
-          <p style={{ fontSize: 13, fontWeight: 600, color: "#2563eb", margin: 0 }}>{active?.item}</p>
-          <p style={{ fontSize: 13, fontWeight: 700, color: "#1e293b", margin: 0 }}>{active?.itemPrice}</p>
+          <p style={{ fontSize: 13, fontWeight: 600, color: "#2563eb", margin: 0 }}>{active.item}</p>
+          <p style={{ fontSize: 13, fontWeight: 700, color: "#1e293b", margin: 0 }}>{active.itemPrice}</p>
         </div>
       </div>
       <div style={{ flex: 1, overflowY: "auto", padding: 16, display: "flex", flexDirection: "column", gap: 12 }}>
-        {active?.messages.length === 0 ? (
+        {active.messages.length === 0 ? (
           <div style={{ textAlign: "center", margin: "auto", color: "#94a3b8" }}>
             <p style={{ fontSize: 32, marginBottom: 8 }}>💬</p>
             <p style={{ fontSize: 14 }}>Belum ada pesan. Mulai tanya ke penjual!</p>
           </div>
         ) : (
-          active?.messages.map((msg, i) => (
+          active.messages.map((msg, i) => (
             <div key={i} style={{ display: "flex", justifyContent: msg.from === "me" ? "flex-end" : "flex-start" }}>
               <div style={{ maxWidth: 280, borderRadius: msg.from === "me" ? "16px 16px 4px 16px" : "16px 16px 16px 4px", padding: "10px 14px", backgroundColor: msg.from === "me" ? "#2563eb" : "#f1f5f9" }}>
                 <p style={{ fontSize: 14, color: msg.from === "me" ? "#fff" : "#1e293b", margin: 0 }}>{msg.text}</p>
@@ -98,13 +98,7 @@ export default function ChatPage() {
         )}
       </div>
       <div style={{ padding: 16, borderTop: "1px solid #e2e8f0", display: "flex", gap: 12 }}>
-        <input
-          value={input}
-          onChange={(e) => setInput(e.target.value)}
-          onKeyDown={(e) => e.key === "Enter" && sendMessage()}
-          placeholder="Ketik pesan..."
-          style={{ flex: 1, borderRadius: 12, border: "1px solid #e2e8f0", padding: "12px 16px", fontSize: 14, outline: "none" }}
-        />
+        <input value={input} onChange={(e) => setInput(e.target.value)} onKeyDown={(e) => e.key === "Enter" && sendMessage()} placeholder="Ketik pesan..." style={{ flex: 1, borderRadius: 12, border: "1px solid #e2e8f0", padding: "12px 16px", fontSize: 14, outline: "none" }} />
         <button onClick={sendMessage} style={{ borderRadius: 12, backgroundColor: "#2563eb", color: "#fff", border: "none", padding: "12px 24px", fontSize: 14, fontWeight: 600, cursor: "pointer" }}>Kirim</button>
       </div>
     </div>

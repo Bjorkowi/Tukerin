@@ -1,6 +1,16 @@
 "use client";
 import { useState, useEffect } from "react";
 
+function Avatar({ name, size = 34 }: { name: string; size?: number }) {
+  return (
+    <img
+      src={"https://api.dicebear.com/7.x/avataaars/svg?seed=" + encodeURIComponent(name) + "&backgroundColor=b6e3f4"}
+      style={{ width: size, height: size, borderRadius: "50%", objectFit: "cover", backgroundColor: "#e0f2fe" }}
+      alt={name}
+    />
+  );
+}
+
 export default function Navbar() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [userName, setUserName] = useState("");
@@ -36,13 +46,11 @@ export default function Navbar() {
   return (
     <>
       <nav style={{ backgroundColor: "#fff", borderBottom: "1px solid #e2e8f0", position: "sticky", top: 0, zIndex: 50 }}>
-        <div style={{ maxWidth: 1280, margin: "0 auto", padding: "12px 20px", display: "flex", alignItems: "center", gap: 12 }}>
-          <h1 style={{ fontSize: 22, fontWeight: 700, whiteSpace: "nowrap", margin: 0 }}>
-            <a href="/" style={{ textDecoration: "none" }}>
-              <span style={{ color: "#2563eb" }}>TUKER</span>
-              <span style={{ color: "#ef4444" }}>IN</span>
-            </a>
-          </h1>
+        <div style={{ maxWidth: 1280, margin: "0 auto", padding: isMobile ? "12px 16px" : "14px 20px", display: "flex", alignItems: "center", gap: 12 }}>
+          <a href="/" style={{ textDecoration: "none", whiteSpace: "nowrap" }}>
+            <span style={{ color: "#2563eb", fontWeight: 900, fontSize: isMobile ? 34 : 32, letterSpacing: "-0.5px" }}>TUKER</span>
+            <span style={{ color: "#ef4444", fontWeight: 900, fontSize: isMobile ? 34 : 32, letterSpacing: "-0.5px" }}>IN</span>
+          </a>
 
           {!isMobile && (
             <div style={{ flex: 1, maxWidth: 500 }}>
@@ -51,13 +59,9 @@ export default function Navbar() {
           )}
 
           {isMobile ? (
-            <div style={{ marginLeft: "auto", display: "flex", alignItems: "center", gap: 8 }}>
-              {isLoggedIn && (
-                <div style={{ width: 32, height: 32, borderRadius: "50%", backgroundColor: "#2563eb", display: "flex", alignItems: "center", justifyContent: "center", color: "#fff", fontWeight: 700, fontSize: 14 }}>
-                  {userName.charAt(0)}
-                </div>
-              )}
-              <button onClick={() => setShowMenu(!showMenu)} style={{ border: "1px solid #e2e8f0", borderRadius: 8, padding: "6px 10px", background: "#fff", cursor: "pointer", fontSize: 18 }}>
+            <div style={{ marginLeft: "auto", display: "flex", alignItems: "center", gap: 10 }}>
+              {isLoggedIn && <Avatar name={userName} size={36} />}
+              <button onClick={() => setShowMenu(!showMenu)} style={{ border: "1px solid #e2e8f0", borderRadius: 8, padding: "7px 11px", background: "#fff", cursor: "pointer", fontSize: 20 }}>
                 {showMenu ? "✕" : "☰"}
               </button>
             </div>
@@ -71,7 +75,7 @@ export default function Navbar() {
                   <a href="/dashboard" style={{ border: "1px solid #cbd5e1", borderRadius: 8, padding: "8px 16px", fontSize: 14, background: "transparent", textDecoration: "none", color: "#0f172a" }}>Dashboard</a>
                   <div style={{ position: "relative" }}>
                     <button onClick={() => setShowDropdown(!showDropdown)} style={{ display: "flex", alignItems: "center", gap: 8, border: "1px solid #cbd5e1", borderRadius: 8, padding: "6px 12px", fontSize: 14, background: "transparent", cursor: "pointer" }}>
-                      <div style={{ width: 28, height: 28, borderRadius: "50%", backgroundColor: "#2563eb", display: "flex", alignItems: "center", justifyContent: "center", color: "#fff", fontWeight: 700, fontSize: 13 }}>{userName.charAt(0)}</div>
+                      <Avatar name={userName} size={30} />
                       <span>{userName.split(" ")[0]}</span>
                       <span style={{ fontSize: 10 }}>▾</span>
                     </button>
@@ -89,40 +93,36 @@ export default function Navbar() {
               ) : (
                 <>
                   <a href="/login" style={{ border: "1px solid #cbd5e1", borderRadius: 8, padding: "8px 16px", fontSize: 14, background: "transparent", textDecoration: "none", color: "#0f172a" }}>Masuk</a>
-                  <a href="/login" style={{ borderRadius: 8, padding: "8px 16px", fontSize: 14, background: "#2563eb", color: "#fff", textDecoration: "none", border: "none" }}>Daftar</a>
+                  <a href="/register" style={{ borderRadius: 8, padding: "8px 16px", fontSize: 14, background: "#2563eb", color: "#fff", textDecoration: "none", border: "none" }}>Daftar</a>
                 </>
               )}
             </div>
           )}
         </div>
 
-        {/* Mobile search bar */}
         {isMobile && (
-          <div style={{ padding: "0 20px 12px" }}>
+          <div style={{ padding: "0 16px 10px" }}>
             <input placeholder="Cari barang bekas..." style={{ width: "100%", border: "1px solid #cbd5e1", borderRadius: 8, padding: "8px 16px", fontSize: 14, backgroundColor: "#f8fafc", boxSizing: "border-box" }} />
           </div>
         )}
       </nav>
 
-      {/* Mobile Menu Overlay */}
       {isMobile && showMenu && (
         <div style={{ position: "fixed", top: 0, left: 0, right: 0, bottom: 0, backgroundColor: "rgba(0,0,0,0.5)", zIndex: 100 }} onClick={() => setShowMenu(false)}>
           <div style={{ position: "absolute", top: 0, right: 0, width: 280, height: "100%", backgroundColor: "#fff", padding: 24, display: "flex", flexDirection: "column", gap: 8 }} onClick={(e) => e.stopPropagation()}>
             <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 16 }}>
-              <span style={{ fontSize: 18, fontWeight: 700 }}><span style={{ color: "#2563eb" }}>TUKER</span><span style={{ color: "#ef4444" }}>IN</span></span>
+              <span style={{ fontSize: 26, fontWeight: 900 }}><span style={{ color: "#2563eb" }}>TUKER</span><span style={{ color: "#ef4444" }}>IN</span></span>
               <button onClick={() => setShowMenu(false)} style={{ border: "none", background: "none", fontSize: 20, cursor: "pointer" }}>✕</button>
             </div>
-
             {isLoggedIn && (
               <div style={{ backgroundColor: "#eff6ff", borderRadius: 12, padding: "12px 16px", marginBottom: 8, display: "flex", alignItems: "center", gap: 12 }}>
-                <div style={{ width: 40, height: 40, borderRadius: "50%", backgroundColor: "#2563eb", display: "flex", alignItems: "center", justifyContent: "center", color: "#fff", fontWeight: 700, fontSize: 16 }}>{userName.charAt(0)}</div>
+                <Avatar name={userName} size={44} />
                 <div>
                   <p style={{ fontWeight: 600, fontSize: 14, margin: 0, color: "#1e293b" }}>{userName}</p>
                   <p style={{ fontSize: 12, color: "#64748b", margin: 0 }}>Mahasiswa ITB</p>
                 </div>
               </div>
             )}
-
             {[
               { href: "/", label: "🏠 Beranda" },
               { href: "/marketplace", label: "🛍️ Marketplace" },
@@ -137,7 +137,6 @@ export default function Navbar() {
                 {item.label}
               </a>
             ))}
-
             <div style={{ marginTop: "auto" }}>
               {isLoggedIn ? (
                 <button onClick={handleLogout} style={{ width: "100%", padding: "12px", backgroundColor: "#fef2f2", color: "#ef4444", border: "1px solid #fecaca", borderRadius: 10, fontSize: 15, fontWeight: 600, cursor: "pointer" }}>🚪 Keluar</button>

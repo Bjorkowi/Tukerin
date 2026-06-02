@@ -1,6 +1,7 @@
 "use client";
 import { useState, useEffect } from "react";
 import Navbar from "../components/Navbar";
+import SkeletonCard from "../components/SkeletonCard";
 
 const allListings = [
   { id: 1, icon: "🧮", title: "Kalkulator Casio FX-991EX", price: 150000, major: "STEI-R", condition: "Sangat Baik", category: "Kalkulator", bg: "#eff6ff" },
@@ -58,6 +59,12 @@ export default function MarketplacePage() {
   const [minPrice, setMinPrice] = useState("");
   const [maxPrice, setMaxPrice] = useState("");
   const [showFilter, setShowFilter] = useState(false);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const timer = setTimeout(() => setLoading(false), 1200);
+    return () => clearTimeout(timer);
+  }, []);
 
   useEffect(() => {
     const params = new URLSearchParams(window.location.search);
@@ -100,7 +107,7 @@ export default function MarketplacePage() {
   return (
     <main style={{ minHeight: "100vh", backgroundColor: "#f8fafc" }}>
       <Navbar />
-      <div style={{ background: "linear-gradient(135deg, #1d4ed8 0%, #2563eb 60%, #3b82f6 100%)", padding: "clamp(20px, 4vw, 32px) clamp(16px, 4vw, 24px)" }}>
+      <div style={{ background: "linear-gradient(135deg, #1d4ed8 0%, #2563eb 60%, #3b82f6 100%)", padding: "clamp(32px, 5vw, 48px) clamp(16px, 4vw, 24px)" }}>
         <div style={{ maxWidth: 1280, margin: "0 auto" }}>
           <h2 style={{ color: "#fff", fontSize: "clamp(22px, 4vw, 32px)", fontWeight: 800, margin: "0 0 16px" }}>Marketplace</h2>
           <div style={{ display: "flex", gap: 10 }}>
@@ -143,18 +150,11 @@ export default function MarketplacePage() {
           {categories.map((cat) => (<button key={cat} onClick={() => setActiveCategory(cat)} style={{ borderRadius: 999, padding: "7px 16px", fontSize: 13, fontWeight: 500, cursor: "pointer", border: "1px solid", borderColor: activeCategory === cat ? "#2563eb" : "#e2e8f0", backgroundColor: activeCategory === cat ? "#2563eb" : "#fff", color: activeCategory === cat ? "#fff" : "#334155", whiteSpace: "nowrap", flexShrink: 0 }}>{cat}</button>))}
         </div>
 
-        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 14 }}>
-          <p style={{ fontSize: 13, color: "#64748b", margin: 0 }}>
-            <strong style={{ color: "#1e293b" }}>{filtered.length}</strong> barang{search && <span> untuk "<strong>{search}</strong>"</span>}
-          </p>
-          <select value={sortBy} onChange={(e) => setSortBy(e.target.value)} style={{ border: "1px solid #e2e8f0", borderRadius: 8, padding: "6px 10px", fontSize: 12, color: "#334155", backgroundColor: "#fff", outline: "none" }}>
-            <option>Terbaru</option>
-            <option>Termurah</option>
-            <option>Termahal</option>
-          </select>
-        </div>
-
-        {filtered.length === 0 ? (
+        {loading ? (
+          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(150px, 1fr))", gap: "clamp(8px, 2vw, 16px)" }}>
+            {Array.from({ length: 12 }).map((_, i) => <SkeletonCard key={i} />)}
+          </div>
+        ) : filtered.length === 0 ? (
           <div style={{ textAlign: "center", padding: "60px 24px" }}>
             <p style={{ fontSize: 48, marginBottom: 12 }}>🔍</p>
             <h3 style={{ fontSize: 18, fontWeight: 700, margin: "0 0 8px" }}>Tidak ditemukan</h3>
@@ -162,22 +162,34 @@ export default function MarketplacePage() {
             <button onClick={resetFilter} style={{ backgroundColor: "#2563eb", color: "#fff", border: "none", borderRadius: 10, padding: "10px 24px", fontSize: 14, fontWeight: 600, cursor: "pointer" }}>Reset Filter</button>
           </div>
         ) : (
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(150px, 1fr))", gap: "clamp(8px, 2vw, 16px)" }}>
-            {filtered.map((item) => (
-              <a href={"/listing/" + item.id} key={item.id} style={{ borderRadius: 16, backgroundColor: "#fff", border: "1px solid #e2e8f0", overflow: "hidden", textDecoration: "none", display: "block", boxShadow: "0 1px 4px rgba(0,0,0,0.04)" }}>
-                <div style={{ height: "clamp(90px, 15vw, 140px)", backgroundColor: item.bg, display: "flex", alignItems: "center", justifyContent: "center", fontSize: "clamp(32px, 6vw, 48px)" }}>{item.icon}</div>
-                <div style={{ padding: "clamp(10px, 2vw, 14px)" }}>
-                  <p style={{ fontSize: "clamp(11px, 1.5vw, 13px)", fontWeight: 600, color: "#1e293b", margin: 0, lineHeight: 1.3 }}>{item.title}</p>
-                  <p style={{ fontSize: "clamp(13px, 2vw, 16px)", fontWeight: 700, color: "#ef4444", margin: "6px 0 8px" }}>{formatPrice(item.price)}</p>
-                  <div style={{ display: "flex", gap: 4, flexWrap: "wrap", marginBottom: 8 }}>
-                    <span style={{ borderRadius: 999, backgroundColor: "#eff6ff", padding: "2px 6px", fontSize: "clamp(9px, 1.2vw, 11px)", color: "#2563eb" }}>{item.major}</span>
-                    <span style={{ borderRadius: 999, backgroundColor: "#f0fdf4", padding: "2px 6px", fontSize: "clamp(9px, 1.2vw, 11px)", color: "#16a34a" }}>{item.condition}</span>
+          <>
+            <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 14 }}>
+              <p style={{ fontSize: 13, color: "#64748b", margin: 0 }}>
+                <strong style={{ color: "#1e293b" }}>{filtered.length}</strong> barang{search && <span> untuk "<strong>{search}</strong>"</span>}
+              </p>
+              <select value={sortBy} onChange={(e) => setSortBy(e.target.value)} style={{ border: "1px solid #e2e8f0", borderRadius: 8, padding: "6px 10px", fontSize: 12, color: "#334155", backgroundColor: "#fff", outline: "none" }}>
+                <option>Terbaru</option>
+                <option>Termurah</option>
+                <option>Termahal</option>
+              </select>
+            </div>
+            <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(150px, 1fr))", gap: "clamp(8px, 2vw, 16px)" }}>
+              {filtered.map((item) => (
+                <a href={"/listing/" + item.id} key={item.id} style={{ borderRadius: 16, backgroundColor: "#fff", border: "1px solid #e2e8f0", overflow: "hidden", textDecoration: "none", display: "block", boxShadow: "0 1px 4px rgba(0,0,0,0.04)" }}>
+                  <div style={{ height: "clamp(90px, 15vw, 140px)", backgroundColor: item.bg, display: "flex", alignItems: "center", justifyContent: "center", fontSize: "clamp(32px, 6vw, 48px)" }}>{item.icon}</div>
+                  <div style={{ padding: "clamp(10px, 2vw, 14px)" }}>
+                    <p style={{ fontSize: "clamp(11px, 1.5vw, 13px)", fontWeight: 600, color: "#1e293b", margin: 0, lineHeight: 1.3 }}>{item.title}</p>
+                    <p style={{ fontSize: "clamp(13px, 2vw, 16px)", fontWeight: 700, color: "#ef4444", margin: "6px 0 8px" }}>{formatPrice(item.price)}</p>
+                    <div style={{ display: "flex", gap: 4, flexWrap: "wrap", marginBottom: 8 }}>
+                      <span style={{ borderRadius: 999, backgroundColor: "#eff6ff", padding: "2px 6px", fontSize: "clamp(9px, 1.2vw, 11px)", color: "#2563eb" }}>{item.major}</span>
+                      <span style={{ borderRadius: 999, backgroundColor: "#f0fdf4", padding: "2px 6px", fontSize: "clamp(9px, 1.2vw, 11px)", color: "#16a34a" }}>{item.condition}</span>
+                    </div>
+                    <div style={{ width: "100%", padding: "7px", backgroundColor: "#2563eb", color: "#fff", borderRadius: 8, fontSize: "clamp(10px, 1.5vw, 12px)", fontWeight: 600, textAlign: "center" }}>Lihat Detail</div>
                   </div>
-                  <div style={{ width: "100%", padding: "7px", backgroundColor: "#2563eb", color: "#fff", borderRadius: 8, fontSize: "clamp(10px, 1.5vw, 12px)", fontWeight: 600, textAlign: "center" }}>Lihat Detail</div>
-                </div>
-              </a>
-            ))}
-          </div>
+                </a>
+              ))}
+            </div>
+          </>
         )}
       </div>
     </main>

@@ -41,13 +41,13 @@ export default function BottomNav() {
   return (
     <>
       <div style={{ height: 72 }} />
-      <nav style={{ position: "fixed", bottom: 0, left: 0, right: 0, backgroundColor: "#fff", borderTop: "1px solid #e2e8f0", display: "flex", alignItems: "center", justifyContent: "space-around", padding: "8px 0 16px", zIndex: 200, boxShadow: "0 -4px 20px rgba(0,0,0,0.08)" }}>
+      <nav style={{ position: "fixed", bottom: 0, left: 0, right: 0, backgroundColor: "#fff", borderTop: "1px solid #e2e8f0", display: "flex", alignItems: "center", justifyContent: "space-around", padding: "6px 0 18px", zIndex: 200, boxShadow: "0 -4px 20px rgba(0,0,0,0.08)" }}>
         {navItems.map((item) => {
           const isActive = pathname === item.href || (item.href !== "/" && pathname.startsWith(item.href));
           if (item.special) {
             return (
-              <a key={item.href} href={item.href} style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 3, textDecoration: "none", position: "relative", top: -20 }}>
-                <div style={{ width: 56, height: 56, borderRadius: "50%", backgroundColor: "#2563eb", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 28, fontWeight: 700, color: "#fff", boxShadow: "0 4px 16px rgba(37,99,235,0.5)" }}>+</div>
+              <a key={item.href} href={item.href} style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 3, textDecoration: "none", position: "relative", top: -28 }}>
+                <div style={{ width: 58, height: 58, borderRadius: "50%", backgroundColor: "#2563eb", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 30, fontWeight: 700, color: "#fff", boxShadow: "0 4px 20px rgba(37,99,235,0.5)", border: "3px solid #fff", lineHeight: 1, paddingBottom: 2 }}>+</div>
                 <span style={{ fontSize: 11, color: "#2563eb", fontWeight: 700 }}>{item.label}</span>
               </a>
             );

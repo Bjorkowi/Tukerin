@@ -77,7 +77,7 @@ export default function ProfilePage() {
               </div>
             </div>
             <a href="/dashboard" style={{ display: "block", textAlign: "center", backgroundColor: "#2563eb", color: "#fff", padding: "13px", borderRadius: 12, fontWeight: 700, fontSize: 14, textDecoration: "none" }}>📊 Dashboard Penjual</a>
-            <button onClick={handleLogout} style={{ display: "block", width: "100%", textAlign: "center", backgroundColor: "#fef2f2", color: "#ef4444", border: "1px solid #fecaca", padding: "13px", borderRadius: 12, fontWeight: 700, fontSize: 14, cursor: "pointer" }}>🚪 Keluar</button>
+            <button onClick={handleLogout} style={{ width: "100%", textAlign: "center", backgroundColor: "#fef2f2", color: "#ef4444", border: "1px solid #fecaca", padding: "13px", borderRadius: 12, fontWeight: 700, fontSize: 14, cursor: "pointer" }}>🚪 Keluar</button>
           </div>
 
           <div style={{ flex: 1, minWidth: 0 }}>

@@ -55,7 +55,7 @@ export default function Home() {
             Jual, Beli & Tukar{" "}
             <span style={{ color: "#fde047" }}>Barang Bekas Akademik</span>
           </h2>
-          <p style={{ color: "#bfdbfe", fontSize: "clamp(14px, 2vw, 18px)", lineHeight: 1.6, marginBottom: 32, maxWidth: 560 }}>
+          <p style={{ color: "#bfdbfe", fontSize: "clamp(16px, 2.5vw, 20px)", lineHeight: 1.6, marginBottom: 32, maxWidth: 560 }}>
             Temukan buku, kalkulator, lab kit dari mahasiswa ITB terverifikasi.
           </p>
 
